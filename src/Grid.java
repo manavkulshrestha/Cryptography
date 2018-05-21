@@ -10,52 +10,45 @@ import java.io.IOException;
 import java.util.Arrays;
 
 public class Grid {
-    private int[] columns;
     private int[] rows;
     private char[][] grid;
 
     public Grid(boolean random) {
-        this.columns = new int[10];
         this.rows = new int[2];
-        this.grid = new char[3][10];
+        this.grid = new char[10][3];
+        char[] temp;
 
-        for(int i=0; i<columns.length; i++)
-            columns[i] = i;
-
-        grid[0] = toCharArray("ETAO N RIS");
-        if(random) {
-            shuffle(grid[0]);
-            shuffle(columns);
-        }
-
-        for(int i=0, j=0; i<grid[0].length; i++)
-            if(grid[0][i] == ' ')
-                columns[j++] = columns[i];
-
-        char[] remainingRows = toCharArray("BCDFGHJKLMPQ/UVWXY.Z");
+        temp = toCharArray("ETAO N RIS");
         if(random)
-            shuffle(remainingRows);
+            shuffle(temp);
+        for(int i=0; i<temp.length; i++)
+            grid[i][0] = temp[i];
 
-        for(int i=0; i<grid[1].length; i++)
-            grid[1][i] = remainingRows[i];
+        temp = toCharArray("BCDFGHJKLMPQ/UVWXY.Z");
+        if(random)
+            shuffle(temp);
 
-        for(int i=0; i<grid[1].length; i++)
-            grid[2][i] = remainingRows[grid[1].length+i];
+        int len = temp.length/2;
+        for(int i=0; i<len; i++)
+            grid[i][1] = temp[i];
+
+        for(int i=0; i<len; i++)
+            grid[i][2] = temp[len+i];
     }
 
     public Grid(String fileName) throws IOException{
         BufferedReader br = new BufferedReader(new FileReader(fileName));
 
-        char[] temp = toCharArray(br.readLine());
-        for(int i=0; i<temp.length; i++)
-            columns[i] = temp[i]-'0';
+        String rowNums = br.readLine();
+        rows[0] = rowNums.charAt(0)-'0';
+        rows[1] = rowNums.charAt(1)-'0';
 
-        temp = toCharArray(br.readLine());
-        rows[0] = temp[0]-'0';
-        rows[1] = temp[1]-'0';
-
-        for(int i=0; i<3; i++)
-            grid[i] = toCharArray(br.readLine());
+        for(int i=0; i<3; i++) {
+            char[] temp = toCharArray(br.readLine());
+            for(int j=0; j<10; j++) {
+                grid[j][i] = temp[j];
+            }
+        }
     }
 
 
