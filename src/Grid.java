@@ -7,7 +7,6 @@
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.Arrays;
 
 public class Grid {
     private int[] rows;
@@ -79,21 +78,22 @@ public class Grid {
         }
     }
 
-    public String encryptCharacter(char c) {
+    public String encryptCharacter(char ch) {
         String ret = "";
+        ch = Character.toUpperCase(ch);
 
-        for(int i=0; i<grid.length; i++) {
-            for(int j=0; j<grid[i].length; j++) {
-                if(grid[i][j] == c) {
-                    ret += columns[j];
-                    if(i > 0)
-                        ret = ret+rows[i-1];
+        for(int c=0; c<grid.length; c++) {
+            for(int r=0; r<grid[c].length; r++) {
+                if(grid[c][r] == ch) {
+                    ret += c;
+                    if(r > 0)
+                        ret = ret+rows[r-1];
                     break;
                 }
             }
         }
 
-        return (ret.equals("")) ? ""+c : ret;
+        return (ret.equals("")) ? ""+ch : ret;
     }
 
     public String encryptString(String s) {
@@ -107,15 +107,33 @@ public class Grid {
 
     public String decryptString(String s) {
         char rowOne = (char)('0'+rows[0]), rowTwo = (char)('0'+rows[1]);
+        String ret = "";
 
         for(int i=0; i<s.length(); i++) {
-            char c = s.charAt(i);
+            int num = s.charAt(i)-'0';
 
-            if(c == rowOne || c == rowTwo)
+            if(num == rows[0] || num == rows[1])
+                ret += grid[s.charAt(++i)-'0'][(num == rowOne) ? 0 : 1];
+            else
+                ret += grid[num][0];
         }
+
+        return ret;
     }
 
     public String toString() {
-        return Arrays.toString(columns)+"\n"+Arrays.toString(rows)+"\n"+Arrays.toString(grid[0])+"\n"+Arrays.toString(grid[1])+"\n"+Arrays.toString(grid[2]);
+        String ret = " ";
+        for(int i=0; i<10; i++)
+            ret += "\t"+i;
+
+        ret += "\n ";
+
+        for(int r=0; r<3; r++) {
+            for(int c=0; c<10; c++)
+                ret += "\t"+grid[c][r];
+            if(r < 2)
+                ret += "\n"+rows[r];
+        }
+
     }
 }
