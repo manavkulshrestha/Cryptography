@@ -8,32 +8,127 @@ import java.io.*;
 import java.util.Scanner;
 
 public class Cryptography {
-    public static void main(String args[]) throws IOException {
+    public static void main(String args[]) {
         Scanner in = new Scanner(System.in);
         menu input;
+        Grid grid = null;
+
+        final String SAVED = "Saved!", FILE_PROMPT = "Enter filename (with extention): ",
+                NO_GRID = "No grid loaded.", CREATED = "Created!", SAVE_ERROR = "Error saving.",
+                LOADED = "Loaded!", TEXT_PROMPT_ONE_LINE = "Enter text (in one line): ",
+                DECRYPTED_SHOW = "Decrypted string: ", ENCRYPTED_SHOW = "Encrypted string: ",
+                TEXT_SHOW = "Text: ", LOAD_ERROR = "Not loaded.";
 
         do {
             pMenu();
             System.out.print('\n');
             switch (input = menu.values()[in.nextInt()]) {
                 case RANDOM_GRID:
-
+                    grid = new Grid(true);
+                    System.out.print(CREATED+"\n"+FILE_PROMPT);
+                    try {
+                        grid.saveToFile(in.next());
+                        System.out.print(SAVED);
+                    } catch(IOException e) {
+                        System.out.print(SAVE_ERROR);
+                    }
                     break;
                 case STANDARD_GRID:
+                    grid = new Grid(false);
+                    System.out.print(CREATED+"\n"+FILE_PROMPT);
+                    try {
+                        grid.saveToFile(in.next());
+                        System.out.print(SAVED);
+                    } catch(IOException e) {
+                        System.out.print(SAVE_ERROR);
+                    }
                     break;
                 case LOAD_GRID:
+                    System.out.print(FILE_PROMPT);
+                    try {
+                        grid = new Grid(in.next());
+                        System.out.print(LOADED+"\n"+grid);
+                    } catch (IOException e) {
+                        System.out.print(NO_GRID);
+                    }
+                    break;
+                case CHECK_GRID:
+                    System.out.print((grid == null) ? NO_GRID : LOADED+"\n"+grid);
                     break;
                 case ENCRYPT_TEXT:
+                    if(grid == null) {
+                        System.out.print(NO_GRID);
+                        break;
+                    }
+                    System.out.print(TEXT_PROMPT_ONE_LINE);
+                    String encryptedText = grid.encryptString(in.next());
+                    System.out.print(ENCRYPTED_SHOW+encryptedText+"\n"+FILE_PROMPT);
+                    try {
+                        writeToFile(in.next(), encryptedText);
+                        System.out.print(SAVED);
+                    } catch(IOException e) {
+                        System.out.print(SAVE_ERROR);
+                    }
                     break;
                 case ENCRYPT_FILE:
+                    if(grid == null) {
+                        System.out.print(NO_GRID);
+                        break;
+                    }
+                    String toEncrypt, encrypted;
+                    System.out.print(FILE_PROMPT);
+                    try {
+                        encrypted = grid.encryptString(toEncrypt = readFile(in.next()));
+                        System.out.print(LOADED+"\n"+TEXT_SHOW+toEncrypt+"\n"+ENCRYPTED_SHOW+encrypted+"\n"+FILE_PROMPT);
+                        try {
+                            writeToFile(in.next(), encrypted);
+                            System.out.print(SAVED);
+                        } catch(IOException e) {
+                            System.out.print(SAVE_ERROR);
+                        }
+                    } catch(IOException e) {
+                        System.out.print(LOAD_ERROR);
+                    }
                     break;
                 case DECRYPT_TEXT:
+                    if(grid == null) {
+                        System.out.print(NO_GRID);
+                        break;
+                    }
+                    System.out.print(TEXT_PROMPT_ONE_LINE);
+                    String decryptedText = grid.decryptString(in.next());
+                    System.out.print("Decrypted string: "+decryptedText+"\n"+FILE_PROMPT);
+                    try {
+                        writeToFile(in.next(), decryptedText);
+                        System.out.print(SAVED);
+                    } catch(IOException e) {
+                        System.out.print(SAVE_ERROR);
+                    }
                     break;
                 case DECRYPT_FILE:
+                    if(grid == null) {
+                        System.out.print(NO_GRID);
+                        break;
+                    }
+                    String toDecrypt, decrypted;
+                    System.out.print(FILE_PROMPT);
+                    try {
+                        decrypted = grid.decryptString(toEncrypt = readFile(in.next()));
+                        System.out.print(LOADED+"\n"+TEXT_SHOW+toEncrypt+"\n"+DECRYPTED_SHOW+decrypted+"\n"+FILE_PROMPT);
+                        try {
+                            writeToFile(in.next(), decrypted);
+                            System.out.print(SAVED);
+                        } catch(IOException e) {
+                            System.out.print(SAVE_ERROR);
+                        }
+                    } catch(IOException e) {
+                        System.out.print(LOAD_ERROR);
+                    }
                     break;
                 case QUIT:
                     break;
             }
+            System.out.println('\n');
         } while(input != menu.QUIT);
     }
 
@@ -60,4 +155,4 @@ public class Cryptography {
 
 }
 
-enum menu {RANDOM_GRID, STANDARD_GRID, LOAD_GRID, ENCRYPT_TEXT, ENCRYPT_FILE, DECRYPT_TEXT, DECRYPT_FILE, QUIT}
+enum menu {RANDOM_GRID, STANDARD_GRID, LOAD_GRID, CHECK_GRID, ENCRYPT_TEXT, ENCRYPT_FILE, DECRYPT_TEXT, DECRYPT_FILE, QUIT}

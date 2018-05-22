@@ -4,13 +4,13 @@
     5/21/18
 */
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 public class Grid {
     private int[] rows;
     private char[][] grid;
+    private String encryptedForwardSlash;
+    private String encryptedPeriod;
 
     public Grid(boolean random) {
         this.rows = new int[2];
@@ -20,8 +20,11 @@ public class Grid {
         temp = toCharArray("ETAO N RIS");
         if(random)
             shuffle(temp);
-        for(int i=0; i<temp.length; i++)
+        for(int i=0, j=0; i<temp.length; i++) {
             grid[i][0] = temp[i];
+            if(temp[i] == ' ')
+                rows[j++] = i;
+        }
 
         temp = toCharArray("BCDFGHJKLMPQ/UVWXY.Z");
         if(random)
@@ -33,9 +36,14 @@ public class Grid {
 
         for(int i=0; i<len; i++)
             grid[i][2] = temp[len+i];
+
+        encryptedForwardSlash = encryptCharacter('/');
+        encryptedPeriod = encryptCharacter('.');
     }
 
     public Grid(String fileName) throws IOException{
+        this.rows = new int[2];
+        this.grid = new char[10][3];
         BufferedReader br = new BufferedReader(new FileReader(fileName));
 
         String rowNums = br.readLine();
@@ -48,6 +56,9 @@ public class Grid {
                 grid[j][i] = temp[j];
             }
         }
+
+        encryptedForwardSlash = encryptCharacter('/');
+        encryptedPeriod = encryptCharacter('.');
     }
 
 
@@ -69,14 +80,14 @@ public class Grid {
         }
     }
 
-    private void shuffle(int[] a) {
-        for(int i=0; i<a.length; i++) {
-            int swapIndex = (int)(Math.random()*a.length);
-            int temp = a[i];
-            a[i] = a[swapIndex];
-            a[swapIndex] = temp;
-        }
-    }
+//    private void shuffle(int[] a) {
+//        for(int i=0; i<a.length; i++) {
+//            int swapIndex = (int)(Math.random()*a.length);
+//            int temp = a[i];
+//            a[i] = a[swapIndex];
+//            a[swapIndex] = temp;
+//        }
+//    }
 
     public String encryptCharacter(char ch) {
         String ret = "";
@@ -87,8 +98,7 @@ public class Grid {
                 if(grid[c][r] == ch) {
                     ret += c;
                     if(r > 0)
-                        ret = ret+rows[r-1];
-                    break;
+                        ret = rows[r-1]+ret;
                 }
             }
         }
@@ -98,27 +108,55 @@ public class Grid {
 
     public String encryptString(String s) {
         String ret = "";
+        int len = s.length();
 
-        for(int i=0; i<s.length(); i++)
-            ret += encryptCharacter(s.charAt(i));
+        for(int i=0; i<len; i++) {
+            char ch = s.charAt(i);
+            if('0' <= ch && ch <= '9') {
+                ret += encryptedForwardSlash+ch;
+                for(ch=((++i < len) ? s.charAt(i) : ';'); '0'<=ch && ch<='9'; ch=((++i < len) ? s.charAt(i) : ';'))
+                    ret += ch;
+                ret += encryptedPeriod+((ch != ';') ? encryptCharacter(ch) : "");
+            } else
+                ret += encryptCharacter(s.charAt(i));
+        }
 
         return ret;
     }
 
     public String decryptString(String s) {
-        char rowOne = (char)('0'+rows[0]), rowTwo = (char)('0'+rows[1]);
         String ret = "";
 
         for(int i=0; i<s.length(); i++) {
             int num = s.charAt(i)-'0';
 
-            if(num == rows[0] || num == rows[1])
-                ret += grid[s.charAt(++i)-'0'][(num == rowOne) ? 0 : 1];
-            else
+            if(num == rows[0] || num == rows[1]) {
+                char decrypted = grid[s.charAt(++i)-'0'][(num == rows[0]) ? 1 : 2];
+                if(decrypted == '/') {
+                    int stopIndex = s.indexOf(encryptedPeriod, i);
+                    ret += s.substring(i+1, stopIndex);
+                    i = stopIndex+1;
+                } else
+                    ret += decrypted;
+            } else
                 ret += grid[num][0];
+
         }
 
         return ret;
+    }
+
+    public void saveToFile(String fileName) throws IOException {
+        PrintWriter out = new PrintWriter(new File(fileName));
+
+        out.println((""+rows[0])+rows[1]);
+        for(int r=0; r<3; r++) {
+            for(int c=0; c<10; c++)
+                out.print(grid[c][r]);
+            out.println();
+        }
+
+        out.close();
     }
 
     public String toString() {
@@ -135,5 +173,6 @@ public class Grid {
                 ret += "\n"+rows[r];
         }
 
+        return ret;
     }
 }
