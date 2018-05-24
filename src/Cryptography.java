@@ -5,6 +5,7 @@
 */
 
 import java.io.*;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Cryptography {
@@ -22,10 +23,15 @@ public class Cryptography {
         do {
             pMenu();
             System.out.print('\n');
-            switch (input = menu.values()[in.nextInt()]) {
+            try {
+                input = menu.values()[in.nextInt()];
+            } catch(InputMismatchException e) {
+                input = menu.QUIT;
+            }
+            switch (input) {
                 case RANDOM_GRID:
                     grid = new Grid(true);
-                    System.out.print(CREATED+"\n"+FILE_PROMPT);
+                    System.out.print(CREATED+"\n"+grid+"\n"+FILE_PROMPT);
                     try {
                         grid.saveToFile(in.next());
                         System.out.print(SAVED);
@@ -35,7 +41,7 @@ public class Cryptography {
                     break;
                 case STANDARD_GRID:
                     grid = new Grid(false);
-                    System.out.print(CREATED+"\n"+FILE_PROMPT);
+                    System.out.print(CREATED+"\n"+grid+"\n"+FILE_PROMPT);
                     try {
                         grid.saveToFile(in.next());
                         System.out.print(SAVED);
@@ -61,7 +67,8 @@ public class Cryptography {
                         break;
                     }
                     System.out.print(TEXT_PROMPT_ONE_LINE);
-                    String encryptedText = grid.encryptString(in.next());
+                    in.nextLine();
+                    String encryptedText = grid.encryptString(in.nextLine());
                     System.out.print(ENCRYPTED_SHOW+encryptedText+"\n"+FILE_PROMPT);
                     try {
                         writeToFile(in.next(), encryptedText);
@@ -96,8 +103,9 @@ public class Cryptography {
                         break;
                     }
                     System.out.print(TEXT_PROMPT_ONE_LINE);
-                    String decryptedText = grid.decryptString(in.next());
-                    System.out.print("Decrypted string: "+decryptedText+"\n"+FILE_PROMPT);
+                    in.nextLine();
+                    String decryptedText = grid.decryptString(in.nextLine());
+                    System.out.print(DECRYPTED_SHOW+decryptedText+"\n"+FILE_PROMPT);
                     try {
                         writeToFile(in.next(), decryptedText);
                         System.out.print(SAVED);
@@ -113,8 +121,8 @@ public class Cryptography {
                     String toDecrypt, decrypted;
                     System.out.print(FILE_PROMPT);
                     try {
-                        decrypted = grid.decryptString(toEncrypt = readFile(in.next()));
-                        System.out.print(LOADED+"\n"+TEXT_SHOW+toEncrypt+"\n"+DECRYPTED_SHOW+decrypted+"\n"+FILE_PROMPT);
+                        decrypted = grid.decryptString(toDecrypt = readFile(in.next()));
+                        System.out.print(LOADED+"\n"+TEXT_SHOW+toDecrypt+"\n"+DECRYPTED_SHOW+decrypted+"\n"+FILE_PROMPT);
                         try {
                             writeToFile(in.next(), decrypted);
                             System.out.print(SAVED);
@@ -126,6 +134,8 @@ public class Cryptography {
                     }
                     break;
                 case QUIT:
+                    break;
+                default:
                     break;
             }
             System.out.println('\n');

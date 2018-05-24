@@ -93,6 +93,9 @@ public class Grid {
         String ret = "";
         ch = Character.toUpperCase(ch);
 
+        if(!('A' <= ch && ch <= 'Z'))
+            return ""+ch;
+
         for(int c=0; c<grid.length; c++) {
             for(int r=0; r<grid[c].length; r++) {
                 if(grid[c][r] == ch) {
@@ -103,7 +106,7 @@ public class Grid {
             }
         }
 
-        return (ret.equals("")) ? ""+ch : ret;
+        return ret;
     }
 
     public String encryptString(String s) {
@@ -128,19 +131,23 @@ public class Grid {
         String ret = "";
 
         for(int i=0; i<s.length(); i++) {
-            int num = s.charAt(i)-'0';
+            char ch = s.charAt(i);
+            if('0' <= ch && ch <= '9') {
+                int num = ch-'0';
 
-            if(num == rows[0] || num == rows[1]) {
-                char decrypted = grid[s.charAt(++i)-'0'][(num == rows[0]) ? 1 : 2];
-                if(decrypted == '/') {
-                    int stopIndex = s.indexOf(encryptedPeriod, i);
-                    ret += s.substring(i+1, stopIndex);
-                    i = stopIndex+1;
+                if(num == rows[0] || num == rows[1]) {
+                    char decrypted = grid[s.charAt(++i)-'0'][(num == rows[0]) ? 1 : 2];
+                    if(decrypted == '/') {
+                        int stopIndex = s.indexOf(encryptedPeriod, i);
+                        ret += s.substring(i+1, stopIndex);
+                        i = stopIndex+1;
+                    } else {
+                        ret += decrypted;
+                    }
                 } else
-                    ret += decrypted;
+                    ret += grid[num][0];
             } else
-                ret += grid[num][0];
-
+                ret += ch;
         }
 
         return ret;
