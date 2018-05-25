@@ -5,7 +5,6 @@
 */
 
 import java.io.*;
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Cryptography {
@@ -58,7 +57,7 @@ public class Cryptography {
                         System.out.print(NO_GRID);
                     }
                     break;
-                case CHECK_GRID:
+                case VIEW_GRID:
                     System.out.print((grid == null) ? NO_GRID : LOADED+"\n"+grid);
                     break;
                 case ENCRYPT_TEXT:
@@ -165,4 +164,4 @@ public class Cryptography {
 
 }
 
-enum menu {RANDOM_GRID, STANDARD_GRID, LOAD_GRID, CHECK_GRID, ENCRYPT_TEXT, ENCRYPT_FILE, DECRYPT_TEXT, DECRYPT_FILE, QUIT}
+enum menu {RANDOM_GRID, STANDARD_GRID, LOAD_GRID, VIEW_GRID, ENCRYPT_TEXT, ENCRYPT_FILE, DECRYPT_TEXT, DECRYPT_FILE, QUIT}

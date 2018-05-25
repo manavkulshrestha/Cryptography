@@ -85,21 +85,9 @@ public class Grid {
         }
     }
 
-//    private void shuffle(int[] a) {
-//        for(int i=0; i<a.length; i++) {
-//            int swapIndex = (int)(Math.random()*a.length);
-//            int temp = a[i];
-//            a[i] = a[swapIndex];
-//            a[swapIndex] = temp;
-//        }
-//    }
-
     public String encryptCharacter(char ch) {
         String ret = "";
         ch = Character.toUpperCase(ch);
-
-        if(!('A' <= ch && ch <= 'Z') && escapeEncrypted)
-            return ""+ch;
 
         for(int c=0; c<grid.length; c++) {
             for(int r=0; r<grid[c].length; r++) {
@@ -116,17 +104,15 @@ public class Grid {
 
     public String encryptString(String s) {
         String ret = "";
+        s = s.replaceAll("[^A-Za-z0-9]", "");
         int len = s.length();
 
         for(int i=0; i<len; i++) {
             char ch = s.charAt(i);
-            if('0' <= ch && ch <= '9') {
-                ret += encryptedForwardSlash+ch;
-                for(ch=((++i < len) ? s.charAt(i) : ';'); '0'<=ch && ch<='9'; ch=((++i < len) ? s.charAt(i) : ';'))
-                    ret += ch;
-                ret += encryptedPeriod+((ch != ';') ? encryptCharacter(ch) : "");
-            } else
-                ret += encryptCharacter(s.charAt(i));
+            if('0' <= ch && ch <= '9')
+                ret += encryptedForwardSlash+ch+encryptedPeriod;
+            else
+                ret += encryptCharacter(ch);
         }
 
         return ret;
@@ -137,22 +123,17 @@ public class Grid {
 
         for(int i=0; i<s.length(); i++) {
             char ch = s.charAt(i);
-            if('0' <= ch && ch <= '9') {
-                int num = ch-'0';
+            int num = ch-'0';
 
-                if(num == rows[0] || num == rows[1]) {
-                    char decrypted = grid[s.charAt(++i)-'0'][(num == rows[0]) ? 1 : 2];
-                    if(decrypted == '/') {
-                        int stopIndex = s.indexOf(encryptedPeriod, i);
-                        ret += s.substring(i+1, stopIndex);
-                        i = stopIndex+1;
-                    } else {
-                        ret += decrypted;
-                    }
+            if(num == rows[0] || num == rows[1]) {
+                char decrypted = grid[s.charAt(++i)-'0'][(num == rows[0]) ? 1 : 2];
+                if(decrypted == '/') {
+                    ret += ""+s.charAt(++i);
+                    i += 2;
                 } else
-                    ret += grid[num][0];
+                    ret += decrypted;
             } else
-                ret += ch;
+                ret += grid[num][0];
         }
 
         return ret;
@@ -169,6 +150,17 @@ public class Grid {
         }
 
         out.close();
+    }
+
+    public String complicate(String encrypted, String repeating) {
+        int eLen = encrypted.length(), rLen = repeating.length(), rCount = eLen/rLen, subLim = eLen%rLen;
+        String toAdd = "";
+
+        for(int i=0; i<rCount; i++)
+            toAdd += repeating;
+
+//        to
+        return "";
     }
 
     public String toString() {
