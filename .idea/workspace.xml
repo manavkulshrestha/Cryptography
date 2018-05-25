@@ -2,10 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="70499c5e-dfed-41ab-bd6c-823382058895" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/abcen.txt" afterPath="$PROJECT_DIR$/abcen.txt" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/junk" afterPath="$PROJECT_DIR$/junk" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/3" afterPath="$PROJECT_DIR$/3" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/d" afterPath="$PROJECT_DIR$/d" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/e" afterPath="$PROJECT_DIR$/e" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Cryptography.java" afterPath="$PROJECT_DIR$/src/Cryptography.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/Grid.java" afterPath="$PROJECT_DIR$/src/Grid.java" />
     </list>
@@ -22,8 +22,8 @@
       <file leaf-file-name="Cryptography.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Cryptography.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2265">
-              <caret line="155" column="19" lean-forward="true" selection-start-line="155" selection-start-column="19" selection-end-line="155" selection-end-column="19" />
+            <state relative-caret-position="538">
+              <caret line="162" column="20" lean-forward="true" selection-start-line="162" selection-start-column="20" selection-end-line="162" selection-end-column="20" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -35,7 +35,7 @@
         <entry file="file://$PROJECT_DIR$/e">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="59" />
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="24" />
               <folding />
             </state>
           </provider>
@@ -44,9 +44,11 @@
       <file leaf-file-name="Grid.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Grid.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="161" column="12" lean-forward="true" selection-start-line="161" selection-start-column="12" selection-end-line="161" selection-end-column="12" />
-              <folding />
+            <state relative-caret-position="130">
+              <caret line="131" column="83" lean-forward="true" selection-start-line="131" selection-start-column="83" selection-end-line="131" selection-end-column="83" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -343,7 +345,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="21" />
+      <option name="time" value="25" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -394,7 +396,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1335">
           <caret line="93" column="39" lean-forward="true" selection-start-line="93" selection-start-column="39" selection-end-line="93" selection-end-column="39" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -430,7 +434,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1575">
           <caret line="109" column="24" lean-forward="false" selection-start-line="109" selection-start-column="24" selection-end-line="109" selection-end-column="24" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -495,7 +501,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1575">
           <caret line="109" column="24" lean-forward="true" selection-start-line="109" selection-start-column="24" selection-end-line="109" selection-end-column="24" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -624,15 +632,15 @@
     <entry file="file://$PROJECT_DIR$/e">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="59" />
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="24" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Cryptography.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2265">
-          <caret line="155" column="19" lean-forward="true" selection-start-line="155" selection-start-column="19" selection-end-line="155" selection-end-column="19" />
+        <state relative-caret-position="538">
+          <caret line="162" column="20" lean-forward="true" selection-start-line="162" selection-start-column="20" selection-end-line="162" selection-end-column="20" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -641,9 +649,11 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Grid.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="161" column="12" lean-forward="true" selection-start-line="161" selection-start-column="12" selection-end-line="161" selection-end-column="12" />
-          <folding />
+        <state relative-caret-position="130">
+          <caret line="131" column="83" lean-forward="true" selection-start-line="131" selection-start-column="83" selection-end-line="131" selection-end-column="83" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -5,6 +5,7 @@
 */
 
 import java.io.*;
+import java.math.BigInteger;
 
 public class Grid {
     private int[] rows;
@@ -12,8 +13,9 @@ public class Grid {
     private String encryptedForwardSlash;
     private String encryptedPeriod;
     private boolean escapeEncrypted = false;
+    private String repeat;
 
-    public Grid(boolean random) {
+    public Grid(boolean random, String rep) {
         this.rows = new int[2];
         this.grid = new char[10][3];
         char[] temp;
@@ -41,10 +43,10 @@ public class Grid {
         encryptedForwardSlash = encryptCharacter('/');
         encryptedPeriod = encryptCharacter('.');
 
-        escapeEncrypted = true;
+        repeat = rep;
     }
 
-    public Grid(String fileName) throws IOException{
+    public Grid(String fileName, String rep) throws IOException{
         this.rows = new int[2];
         this.grid = new char[10][3];
         BufferedReader br = new BufferedReader(new FileReader(fileName));
@@ -63,7 +65,7 @@ public class Grid {
         encryptedForwardSlash = encryptCharacter('/');
         encryptedPeriod = encryptCharacter('.');
 
-        escapeEncrypted = true;
+        repeat = rep;
     }
 
 
@@ -115,11 +117,12 @@ public class Grid {
                 ret += encryptCharacter(ch);
         }
 
-        return ret;
+        return complicate(ret, repeat);
     }
 
     public String decryptString(String s) {
         String ret = "";
+        s = uncomplicate(s, repeat);
 
         for(int i=0; i<s.length(); i++) {
             char ch = s.charAt(i);
@@ -154,13 +157,32 @@ public class Grid {
 
     public String complicate(String encrypted, String repeating) {
         int eLen = encrypted.length(), rLen = repeating.length(), rCount = eLen/rLen, subLim = eLen%rLen;
-        String toAdd = "";
+        String toAdd = "", ret = "";
 
         for(int i=0; i<rCount; i++)
             toAdd += repeating;
 
-//        to
-        return "";
+        toAdd += repeating.substring(0, subLim);
+
+        for(int i=0; i<eLen; i++)
+            ret += (((encrypted.charAt(i)-'0')+(toAdd.charAt(i)-'0'))%10);
+
+        return ret;
+    }
+
+    public String uncomplicate(String complicated, String repeating) {
+        int cLen = complicated.length(), rLen = repeating.length(), rCount = cLen/rLen, subLim = cLen%rLen;
+        String toSubtract = "", ret = "";
+
+        for(int i=0; i<rCount; i++)
+            toSubtract += repeating;
+
+        toSubtract += repeating.substring(0, subLim);
+
+        for(int i=0; i<cLen; i++)
+            ret += ((complicated.charAt(i)-'0'+10)-(toSubtract.charAt(i)-'0'))%10;
+
+        return ret;
     }
 
     public String toString() {

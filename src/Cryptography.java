@@ -12,6 +12,7 @@ public class Cryptography {
         Scanner in = new Scanner(System.in);
         menu input;
         Grid grid = null;
+        String repeat = "37421";
 
         final String SAVED = "Saved!", FILE_PROMPT = "Enter filename (with extention): ",
                 NO_GRID = "No grid loaded.", CREATED = "Created!", SAVE_ERROR = "Error saving.",
@@ -29,7 +30,7 @@ public class Cryptography {
             }
             switch (input) {
                 case RANDOM_GRID:
-                    grid = new Grid(true);
+                    grid = new Grid(true, repeat);
                     System.out.print(CREATED+"\n"+grid+"\n"+FILE_PROMPT);
                     try {
                         grid.saveToFile(in.next());
@@ -39,7 +40,7 @@ public class Cryptography {
                     }
                     break;
                 case STANDARD_GRID:
-                    grid = new Grid(false);
+                    grid = new Grid(false, repeat);
                     System.out.print(CREATED+"\n"+grid+"\n"+FILE_PROMPT);
                     try {
                         grid.saveToFile(in.next());
@@ -51,7 +52,7 @@ public class Cryptography {
                 case LOAD_GRID:
                     System.out.print(FILE_PROMPT);
                     try {
-                        grid = new Grid(in.next());
+                        grid = new Grid(in.next(), repeat);
                         System.out.print(LOADED+"\n"+grid);
                     } catch (IOException e) {
                         System.out.print(NO_GRID);
