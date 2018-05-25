@@ -11,6 +11,7 @@ public class Grid {
     private char[][] grid;
     private String encryptedForwardSlash;
     private String encryptedPeriod;
+    private boolean escapeEncrypted = false;
 
     public Grid(boolean random) {
         this.rows = new int[2];
@@ -39,6 +40,8 @@ public class Grid {
 
         encryptedForwardSlash = encryptCharacter('/');
         encryptedPeriod = encryptCharacter('.');
+
+        escapeEncrypted = true;
     }
 
     public Grid(String fileName) throws IOException{
@@ -59,6 +62,8 @@ public class Grid {
 
         encryptedForwardSlash = encryptCharacter('/');
         encryptedPeriod = encryptCharacter('.');
+
+        escapeEncrypted = true;
     }
 
 
@@ -93,7 +98,7 @@ public class Grid {
         String ret = "";
         ch = Character.toUpperCase(ch);
 
-        if(!('A' <= ch && ch <= 'Z'))
+        if(!('A' <= ch && ch <= 'Z') && escapeEncrypted)
             return ""+ch;
 
         for(int c=0; c<grid.length; c++) {

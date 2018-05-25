@@ -25,7 +25,7 @@ public class Cryptography {
             System.out.print('\n');
             try {
                 input = menu.values()[in.nextInt()];
-            } catch(InputMismatchException e) {
+            } catch(Exception e) {
                 input = menu.QUIT;
             }
             switch (input) {
